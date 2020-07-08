@@ -1,12 +1,38 @@
 cmake_minimum_required (VERSION 3.12)
 project(jcu-code-verifier CXX)
 
+include(FetchContent)
+
 set(CMAKE_CXX_STANDARD 14)
 
-add_subdirectory(jcu-file)
-add_subdirectory(jcu-random)
-
 # <CONAN BUILD>
+
+FetchContent_Declare(
+		jcu_file
+		GIT_REPOSITORY https://github.com/jc-lab/jcu-file.git
+		GIT_TAG        master
+)
+
+FetchContent_GetProperties(jcu_file)
+
+if(NOT jcu_file_POPULATED)
+	FetchContent_Populate(jcu_file)
+	add_subdirectory(${jcu_file_SOURCE_DIR} ${jcu_file_BINARY_DIR})
+endif()
+
+FetchContent_Declare(
+		jcu_random
+		GIT_REPOSITORY https://github.com/jc-lab/jcu-random.git
+		GIT_TAG        master
+)
+
+FetchContent_GetProperties(jcu_random)
+
+if(NOT jcu_random_POPULATED)
+	FetchContent_Populate(jcu_random)
+	add_subdirectory(${jcu_random_SOURCE_DIR} ${jcu_random_BINARY_DIR})
+endif()
+
 
 set(SRC_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/include/jcu_code_verifier/constants.h
@@ -41,8 +67,6 @@ option(jcu_code_verifier_BUILD_TESTS "Build tests" ON)
 
 if(jcu_code_verifier_BUILD_TESTS)
 	set(gtest_force_shared_crt ON CACHE BOOL "")
-
-	include(FetchContent)
 
 	FetchContent_Declare(
 			googletest
