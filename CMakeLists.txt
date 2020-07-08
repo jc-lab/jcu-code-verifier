@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 # <CONAN BUILD>
 
+if(NOT TARGET jcu-file)
 FetchContent_Declare(
 		jcu_file
 		GIT_REPOSITORY https://github.com/jc-lab/jcu-file.git
@@ -19,7 +20,9 @@ if(NOT jcu_file_POPULATED)
 	FetchContent_Populate(jcu_file)
 	add_subdirectory(${jcu_file_SOURCE_DIR} ${jcu_file_BINARY_DIR})
 endif()
+endif()
 
+if(NOT TARGET jcu-random)
 FetchContent_Declare(
 		jcu_random
 		GIT_REPOSITORY https://github.com/jc-lab/jcu-random.git
@@ -31,6 +34,7 @@ FetchContent_GetProperties(jcu_random)
 if(NOT jcu_random_POPULATED)
 	FetchContent_Populate(jcu_random)
 	add_subdirectory(${jcu_random_SOURCE_DIR} ${jcu_random_BINARY_DIR})
+endif()
 endif()
 
 
@@ -68,17 +72,19 @@ option(jcu_code_verifier_BUILD_TESTS "Build tests" ON)
 if(jcu_code_verifier_BUILD_TESTS)
 	set(gtest_force_shared_crt ON CACHE BOOL "")
 
-	FetchContent_Declare(
-			googletest
-			GIT_REPOSITORY https://github.com/google/googletest.git
-			GIT_TAG        release-1.10.0
-	)
+	if(NOT TARGET gtest)
+		FetchContent_Declare(
+				googletest
+				GIT_REPOSITORY https://github.com/google/googletest.git
+				GIT_TAG        release-1.10.0
+		)
 
-	FetchContent_GetProperties(googletest)
+		FetchContent_GetProperties(googletest)
 
-	if(NOT googletest_POPULATED)
-		FetchContent_Populate(googletest)
-		add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+		if(NOT googletest_POPULATED)
+			FetchContent_Populate(googletest)
+			add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+		endif()
 	endif()
 
 	enable_testing()
