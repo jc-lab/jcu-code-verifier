@@ -1,0 +1,6 @@
+#ifndef __TEST_CONFIG_H__
+#define __TEST_CONFIG_H__
+
+#cmakedefine TEST_FILES_DIR "@TEST_FILES_DIR@"
+
+#endif //__TEST_CONFIG_H__
