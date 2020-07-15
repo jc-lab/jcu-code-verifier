@@ -24,10 +24,10 @@ class WinTrustProvider : public Provider {
     std::basic_string<WCHAR> out;
     auto sfile = file.getSystemString();
     if (sizeof(sfile.c_str()[0]) == 1) {
-      int nLen = MultiByteToWideChar(CP_ACP, 0, sfile.c_str(), sfile.length(), nullptr, 0);
+      int nLen = MultiByteToWideChar(CP_ACP, 0, (const char*)sfile.c_str(), sfile.length(), nullptr, 0);
       out.resize(nLen);
       if (nLen > 0) {
-        MultiByteToWideChar(CP_ACP, 0, sfile.c_str(), sfile.length(), &out[0], nLen);
+        MultiByteToWideChar(CP_ACP, 0, (const char*)sfile.c_str(), sfile.length(), &out[0], nLen);
       }
     } else {
       out.insert(out.end(), sfile.cbegin(), sfile.cend());
