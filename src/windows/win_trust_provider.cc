@@ -248,6 +248,8 @@ class WinTrustProvider : public Provider {
     // installing applications.
     win_trust_data.dwUIContext = 0;
 
+    win_trust_data.dwProvFlags = WTD_CACHE_ONLY_URL_RETRIEVAL;
+
     // Set pFile.
     win_trust_data.pFile = &FileData;
 
